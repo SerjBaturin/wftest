@@ -4,8 +4,8 @@ import { makeStyles } from '@material-ui/core/styles'
 import { AppBar, Button } from '@material-ui/core'
 import ArrowRightIcon from '@material-ui/icons/ArrowRight'
 
-import FilterBtn from './FilterBtn'
-import Switcher from './Switcher'
+import FilterBtnList from './FilterBtnList'
+import SwitcherList from './SwitcherList'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -36,10 +36,6 @@ const useStyles = makeStyles((theme) => ({
       backgroundColor: 'rgba(255, 255, 255, .2)',
     },
   },
-  btnGroup: {
-    display: 'flex',
-    marginLeft: 'auto',
-  },
 }))
 
 const Header = () => {
@@ -53,17 +49,8 @@ const Header = () => {
       <Button className={classes.button}>
         Best BodyShop Ever <ArrowRightIcon /> Tony Stark
       </Button>
-      <FilterBtn title="ESTIMATORS" />
-      <FilterBtn title="BODYTECHS" />
-      <FilterBtn title="PAINTERS" />
-      <FilterBtn title="OTHERS" />
-      <div className={classes.btnGroup}>
-        <Switcher label="INSHOP" />
-        <Switcher label="second" />
-        <Switcher label="three" />
-        <Switcher label="four" />
-        <Switcher label="five" />
-      </div>
+      <FilterBtnList />
+      <SwitcherList />
     </AppBar>
   )
 }

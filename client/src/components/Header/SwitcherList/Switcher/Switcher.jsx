@@ -1,8 +1,16 @@
 import React from 'react'
-import { withStyles } from '@material-ui/core/styles'
+import { withStyles, makeStyles } from '@material-ui/core/styles'
 import FormGroup from '@material-ui/core/FormGroup'
 import FormControlLabel from '@material-ui/core/FormControlLabel'
 import Switch from '@material-ui/core/Switch'
+
+const useStyles = makeStyles((theme) => ({
+  root: {
+    '& > *': {
+      marginRight: theme.spacing(4),
+    },
+  },
+}))
 
 const IOSSwitch = withStyles((theme) => ({
   root: {
@@ -58,6 +66,8 @@ const IOSSwitch = withStyles((theme) => ({
 })
 
 const Switcher = ({ label }) => {
+  const classes = useStyles()
+
   const [state, setState] = React.useState({
     checked: true,
   })
@@ -67,7 +77,7 @@ const Switcher = ({ label }) => {
   }
 
   return (
-    <FormGroup>
+    <FormGroup className={classes.root}>
       <FormControlLabel
         control={
           <IOSSwitch
