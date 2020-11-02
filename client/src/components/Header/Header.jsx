@@ -2,10 +2,10 @@ import React from 'react'
 
 import { makeStyles } from '@material-ui/core/styles'
 import { AppBar, Button } from '@material-ui/core'
-import ArrowRightIcon from '@material-ui/icons/ArrowRight'
 
 import FilterBtnList from './FilterBtnList'
 import SwitcherList from './SwitcherList'
+import MenuButton from './MenuButton'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -27,15 +27,6 @@ const useStyles = makeStyles((theme) => ({
     letterSpacing: '1px',
     cursor: 'default',
   },
-  button: {
-    margin: '0 15px',
-    padding: '0 25px',
-    height: '60%',
-    color: theme.palette.white.main,
-    '&:hover': {
-      backgroundColor: 'rgba(255, 255, 255, .2)',
-    },
-  },
 }))
 
 const Header = () => {
@@ -46,9 +37,7 @@ const Header = () => {
       <Button color="primary" className={classes.label}>
         WORKFLOW
       </Button>
-      <Button className={classes.button}>
-        Best BodyShop Ever <ArrowRightIcon /> Tony Stark
-      </Button>
+      <MenuButton />
       <FilterBtnList />
       <SwitcherList />
     </AppBar>
