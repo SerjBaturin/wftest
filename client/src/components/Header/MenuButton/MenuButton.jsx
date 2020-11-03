@@ -1,4 +1,6 @@
 import React from 'react'
+import { connect } from 'react-redux'
+import axios from 'axios'
 
 import { makeStyles } from '@material-ui/core/styles'
 import {
@@ -35,7 +37,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 
-const MenuButton = () => {
+const MenuButton = ({ user, companyId }) => {
   const classes = useStyles()
   const [open, setOpen] = React.useState(false)
   const anchorRef = React.useRef(null)
@@ -68,6 +70,8 @@ const MenuButton = () => {
     prevOpen.current = open
   }, [open])
 
+  const bodyshopName = user.company_list.find(company => company.company_id === companyId).company_name      
+
   return (
     <div className={classes.root}>
       <div>
@@ -78,7 +82,7 @@ const MenuButton = () => {
           aria-haspopup="true"
           onClick={handleToggle}
         >
-          Best BodyShop Ever <ArrowRightIcon /> Tony Stark
+          {bodyshopName} <ArrowRightIcon /> {user.user_name}
         </Button>
         <Popper
           open={open}
@@ -115,4 +119,11 @@ const MenuButton = () => {
   )
 }
 
-export default MenuButton
+const mapStateToProps = (state) => {
+  return {
+    user: state.login,
+    companyId: state.companyId
+  }
+}
+
+export default connect(mapStateToProps)(MenuButton)

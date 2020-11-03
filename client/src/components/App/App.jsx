@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect } from 'react'
+import React from 'react'
 import { connect } from 'react-redux'
 
 import { makeStyles } from '@material-ui/core/styles'
@@ -6,9 +6,7 @@ import { Container } from '@material-ui/core'
 
 import SignIn from '../pages/SignIn'
 import Companies from '../pages/Companies'
-import Header from '../Header'
-import BucketList from '../BucketList'
-import axios from 'axios'
+import Main from '../pages/Main'
 
 const useStyles = makeStyles((theme) => ({
   app: {
@@ -21,37 +19,36 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 
-const App = ({ user, pingSaga }) => {
+const App = ({ user, companyId }) => {
   const classes = useStyles()
-
   return (
-    // <div>
-    //   <Header />
-    //   <BucketList />
-    // </div>
-  
-   <Container component="main" maxWidth="xs">
-     <div className={classes.app}>
-       {user.user_id ? (
-         <Companies companies={user.company_list} />
+    <>
+      {user.user_id ? (
+        companyId ? (
+          <Main companyId={companyId} />
+        ) : (
+          <Container component="main" maxWidth="xs">
+            <div className={classes.app}>
+              <Companies companies={user.company_list} companyId={companyId} />
+            </div>
+          </Container>
+        )
       ) : (
-        <SignIn />
+        <Container component="main" maxWidth="xs">
+          <div className={classes.app}>
+            <SignIn />
+          </div>
+        </Container>
       )}
-    </div>
-  </Container>
+    </>
   )
 }
 
 const mapStateToProps = (state) => {
   return {
     user: state.login,
+    companyId: state.companyId,
   }
 }
 
-const mapDispatchToProps = (dispatch) => {
-  return {
-    pingSaga: () => dispatch({ type: 'PING_ASYNC' }),
-  }
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(App)
+export default connect(mapStateToProps)(App)

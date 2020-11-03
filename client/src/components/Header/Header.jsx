@@ -37,7 +37,7 @@ const Header = () => {
       <Button color="primary" className={classes.label}>
         WORKFLOW
       </Button>
-      <MenuButton />
+      <MenuButton  />
       <FilterBtnList />
       <SwitcherList />
     </AppBar>

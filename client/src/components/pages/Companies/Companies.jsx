@@ -1,4 +1,8 @@
 import React from 'react'
+import { connect } from 'react-redux'
+
+import { setCompanyId } from '../../../redux/actions'
+import { casesActionAsync } from '../../../redux/actions'
 
 import { makeStyles } from '@material-ui/core/styles'
 import { Button, Container } from '@material-ui/core'
@@ -20,8 +24,13 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 
-const Companies = ({ companies }) => {
+const Companies = ({ companies, setCompanyId, casesSaga }) => {
   const classes = useStyles()
+
+  const handleChoose = (companyId) => {
+    setCompanyId(companyId)
+    casesSaga(companyId)
+  }
   
   return (
     <Container component="main" maxWidth="xs">
@@ -32,6 +41,7 @@ const Companies = ({ companies }) => {
             variant="contained"
             color="primary"
             key={item.company_id}
+            onClick={() => handleChoose(item.company_id)}
           >
             {item.company_name}
           </Button>
@@ -48,4 +58,11 @@ const Companies = ({ companies }) => {
   )
 }
 
-export default Companies
+const mapDispatchToProps = (dispatch) => {
+  return {
+    setCompanyId: (companyId) => dispatch(setCompanyId(companyId)),
+    casesSaga: (companyId) => dispatch(casesActionAsync(companyId))
+  }
+}
+
+export default connect(null, mapDispatchToProps)(Companies)
