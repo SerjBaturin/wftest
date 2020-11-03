@@ -22,6 +22,7 @@ const useStyles = makeStyles((theme) => ({
 
 const Companies = ({ companies }) => {
   const classes = useStyles()
+  
   return (
     <Container component="main" maxWidth="xs">
       <div className={classes.companies}>

@@ -14,6 +14,7 @@ export function* loginSaga() {
 function* fetchData(action) {
   try {
     const user = yield axios.post('/api/login', action.payload)
+    yield localStorage.setItem('est_session', user.data.token)
     yield put(loginAction(user.data))
   } catch (err) {
     yield console.log(err)

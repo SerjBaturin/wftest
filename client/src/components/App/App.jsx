@@ -8,6 +8,7 @@ import SignIn from '../pages/SignIn'
 import Companies from '../pages/Companies'
 import Header from '../Header'
 import BucketList from '../BucketList'
+import axios from 'axios'
 
 const useStyles = makeStyles((theme) => ({
   app: {
@@ -21,23 +22,24 @@ const useStyles = makeStyles((theme) => ({
 }))
 
 const App = ({ user, pingSaga }) => {
-  // const classes = useStyles()
+  const classes = useStyles()
 
   return (
-    <div>
-      <Header />
-      <BucketList />
+    // <div>
+    //   <Header />
+    //   <BucketList />
+    // </div>
+  
+   <Container component="main" maxWidth="xs">
+     <div className={classes.app}>
+       {user.user_id ? (
+         <Companies companies={user.company_list} />
+      ) : (
+        <SignIn />
+      )}
     </div>
+  </Container>
   )
-  // <Container component="main" maxWidth="xs">
-  //   <div className={classes.app}>
-  //     {user.user_id ? (
-  //       <Companies companies={user.company_list} />
-  //     ) : (
-  //       <SignIn />
-  //     )}
-  //   </div>
-  // </Container>
 }
 
 const mapStateToProps = (state) => {

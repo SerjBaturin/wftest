@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { connect } from 'react-redux'
 
 import { loginActionAsync } from '../../../redux/actions'
+import { pingActionAsync } from '../../../redux/actions'
 
 import Button from '@material-ui/core/Button'
 import TextField from '@material-ui/core/TextField'
@@ -26,7 +27,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 
-const SignIn = ({ loginSaga }) => {
+const SignIn = ({ loginSaga, pingSaga }) => {
   const classes = useStyles()
 
   const [login, setLogin] = useState('')
@@ -40,9 +41,10 @@ const SignIn = ({ loginSaga }) => {
     setPassword(e.target.value)
   }
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault()
-    loginSaga({ login: login, passwd: password })
+    await loginSaga({ login: login, passwd: password })
+    pingSaga()
     setLogin('')
     setPassword('')
   }
@@ -93,6 +95,7 @@ const SignIn = ({ loginSaga }) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     loginSaga: (data) => dispatch(loginActionAsync(data)),
+    pingSaga: () => dispatch(pingActionAsync())
   }
 }
 
