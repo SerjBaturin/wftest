@@ -1,7 +1,8 @@
 import React from 'react'
-import { buckets } from '../../api'
+import { connect } from 'react-redux'
 
 import { makeStyles } from '@material-ui/core/styles'
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 import Bucket from './Bucket'
 
@@ -13,20 +14,41 @@ const useStyles = makeStyles((theme) => ({
     color: theme.palette.white.main,
     listStyle: 'none',
   },
+  loader: {
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    width: '100vw',
+    height: '100vh',
+  }
 }))
 
-const BucketList = () => {
+const BucketList = ({ cases }) => {
   const classes = useStyles()
 
-  return (
-    <ul className={classes.bucketList}>
-      {buckets.data.list.map((bucket) => (
-        <li key={bucket._id}>
-          <Bucket title={bucket.name} />
-        </li>
-      ))}
-    </ul>
-  )
+  if (cases) {
+    return (
+      <ul className={classes.bucketList}>
+        {cases.config.data.list.map((bucket) => (
+          <li key={bucket._id}>
+            <Bucket title={bucket.name} />
+          </li>
+        ))}
+      </ul>
+    )
+  } else {
+    return (
+      <div className={classes.loader}>
+        <CircularProgress />
+      </div>
+    )
+  }
 }
 
-export default BucketList
+const mapStateToProps = (state) => {
+  return {
+    cases: state.cases,
+  }
+}
+
+export default connect(mapStateToProps)(BucketList)
