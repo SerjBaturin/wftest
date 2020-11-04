@@ -1,7 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
 
-import { logout } from '../../../redux/actions'
+import { changeShop, logout } from '../../../redux/actions'
 
 import { makeStyles } from '@material-ui/core/styles'
 import {
@@ -38,7 +38,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 
-const MenuButton = ({ user, companyId, logout }) => {
+const MenuButton = ({ user, companyId, logout, changeShop }) => {
   const classes = useStyles()
   const [open, setOpen] = React.useState(false)
   const anchorRef = React.useRef(null)
@@ -49,6 +49,10 @@ const MenuButton = ({ user, companyId, logout }) => {
 
   const handleLogout = () => {
     logout()
+  }
+
+  const handleChange = () => {
+    changeShop()
   }
 
   const handleClose = (event) => {
@@ -111,7 +115,7 @@ const MenuButton = ({ user, companyId, logout }) => {
                     id="menu-list-grow"
                     onKeyDown={handleListKeyDown}
                   >
-                    <MenuItem className={classes.menuItem} onClick={handleClose}>Change company</MenuItem>
+                    <MenuItem className={classes.menuItem} onClick={() => handleChange()}>Change company</MenuItem>
                     <MenuItem className={classes.menuItem} onClick={() => handleLogout()}>Logout</MenuItem>
                   </MenuList>
                 </ClickAwayListener>
@@ -133,7 +137,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    logout: () => dispatch(logout())
+    logout: () => dispatch(logout()),
+    changeShop: () => dispatch(changeShop())
   }
 }
 
