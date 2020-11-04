@@ -1,6 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import axios from 'axios'
+
+import { logout } from '../../../redux/actions'
 
 import { makeStyles } from '@material-ui/core/styles'
 import {
@@ -37,13 +38,17 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 
-const MenuButton = ({ user, companyId }) => {
+const MenuButton = ({ user, companyId, logout }) => {
   const classes = useStyles()
   const [open, setOpen] = React.useState(false)
   const anchorRef = React.useRef(null)
 
   const handleToggle = () => {
     setOpen((prevOpen) => !prevOpen)
+  }
+
+  const handleLogout = () => {
+    logout()
   }
 
   const handleClose = (event) => {
@@ -70,7 +75,7 @@ const MenuButton = ({ user, companyId }) => {
     prevOpen.current = open
   }, [open])
 
-  const bodyshopName = user.company_list.find(company => company.company_id === companyId).company_name      
+  const bodyshopName = user.company_list.find(company => company.company_id === companyId).company_name     
 
   return (
     <div className={classes.root}>
@@ -107,7 +112,7 @@ const MenuButton = ({ user, companyId }) => {
                     onKeyDown={handleListKeyDown}
                   >
                     <MenuItem className={classes.menuItem} onClick={handleClose}>Change company</MenuItem>
-                    <MenuItem className={classes.menuItem} onClick={handleClose}>Logout</MenuItem>
+                    <MenuItem className={classes.menuItem} onClick={() => handleLogout()}>Logout</MenuItem>
                   </MenuList>
                 </ClickAwayListener>
               </Paper>
@@ -126,4 +131,10 @@ const mapStateToProps = (state) => {
   }
 }
 
-export default connect(mapStateToProps)(MenuButton)
+const mapDispatchToProps = (dispatch) => {
+  return {
+    logout: () => dispatch(logout())
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(MenuButton)
