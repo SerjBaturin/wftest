@@ -1,5 +1,8 @@
 import React from 'react'
 import { connect } from 'react-redux'
+import { DragDropContext, Droppable } from 'react-beautiful-dnd'
+
+import { updateCases } from '../../redux/actions'
 
 import { makeStyles } from '@material-ui/core/styles'
 import CircularProgress from '@material-ui/core/CircularProgress'
@@ -23,34 +26,49 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 
-const BucketList = ({ cases }) => {
+const BucketList = ({ buckets, updateCases }) => {
   const classes = useStyles()
 
-  const casesList = (bucketStatusId) => {
-    let result = []
-    const params = cases.params.data
-    const casesArr = cases.cases.data
-    const wf_params = params.filter(param => param.param_name === 'wf_status')
-    wf_params.map((obj) => {
-      const envID = Number(obj.envelope_id)
-      const statusID = Number(obj.param_value)
-      const caseObj = casesArr.filter(obj => obj.envelope_id === envID)
-      if (bucketStatusId === statusID) {
-        result.push(caseObj)
-      }
-    })
-    return result
+  const onDragEnd = (result, buckets) => {
+    if (!result.destination) return
+    const { source, destination } = result
+    if (source.droppableId !== destination.droppableId) {
+      const sourceBucket = buckets.find((bucket) => String(bucket.status_id) === source.droppableId)
+      const destinationBucket = buckets.find((bucket) => String(bucket.status_id) === destination.droppableId)
+      const sourceCases = [...sourceBucket.cases]
+      const destinationCases = [...destinationBucket.cases]
+      const [removed] = sourceCases.splice(source.index, 1)
+      destinationCases.splice(destination.index, 0, removed)
+      buckets.map(bucket => {
+        if (bucket.status_id === source.droppableId) {
+          bucket.cases = sourceCases
+        }
+        if (bucket.status_id === destination.droppableId) {
+          bucket.cases = destinationCases
+        }
+      })
+      updateCases(buckets)      
+    } 
   }
 
-  if (cases) {
+  if (buckets) {
     return (
-      <ul className={classes.bucketList}>
-        {cases.config.data.list.map((bucket) => (
-          <li key={bucket._id}>
-            <Bucket title={bucket.name} cases={casesList(Number(bucket.status_id))}/>
-          </li>
-        ))}
-      </ul>
+      <DragDropContext onDragEnd={(result) => onDragEnd(result, buckets)}>
+        <ul className={classes.bucketList}>
+          {buckets.map((bucket) => (
+            <Droppable droppableId={String(bucket.status_id)}>
+              {(provided, snapshot) => (
+                <li key={bucket._id}>
+                  <div {...provided.droppableProps} ref={provided.innerRef}>
+                    <Bucket title={bucket.name} cases={bucket.cases} />
+                    {provided.placeholder}
+                  </div>
+                </li>
+              )}
+            </Droppable>
+          ))}
+        </ul>
+      </DragDropContext>
     )
   } else {
     return (
@@ -61,10 +79,16 @@ const BucketList = ({ cases }) => {
   }
 }
 
-const mapStateToProps = (state) => {
+const mapDispatchToProps = (dispatch) => {
   return {
-    cases: state.cases,
+    updateCases: (data) => dispatch(updateCases(data)),
   }
 }
 
-export default connect(mapStateToProps)(BucketList)
+const mapStateToProps = (state) => {
+  return {
+    buckets: state.cases,
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(BucketList)
