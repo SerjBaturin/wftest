@@ -8,7 +8,8 @@ import {
   SET_COMPANY_ID,
   LOGOUT,
   CHANGE_SHOP,
-  UPDATE
+  UPDATE,
+  UPDATE_CASES_ASYNC
 } from '../types'
 
 export const loginActionAsync = (data) => ({ type: LOGIN_ASYNC, payload: data })
@@ -32,3 +33,4 @@ export const logout = () => {
 }
 export const changeShop = () => ({ type: CHANGE_SHOP })
 export const updateCases = (data) => ({ type: UPDATE, payload: data })
+export const updateCasesAsync = (data) => ({ type: UPDATE_CASES_ASYNC, payload: data })

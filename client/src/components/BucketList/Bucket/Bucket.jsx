@@ -1,6 +1,8 @@
 import React, { useState } from 'react'
 import { Draggable } from 'react-beautiful-dnd'
 
+import Case from '../../CaseList/Case'
+
 import { Typography } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
 import { ArrowLeft, ArrowDropUp } from '@material-ui/icons'
@@ -43,10 +45,6 @@ const useStyles = makeStyles((theme) => ({
   arrowClosed: {
     order: '-1',
   },
-  pseudoCase: {
-    border: '1px solid white',
-    margin: theme.spacing(1),
-  },
 }))
 
 const Bucket = ({ title, cases }) => {
@@ -85,12 +83,11 @@ const Bucket = ({ title, cases }) => {
         >
           {(provided, snapshot) => (
             <div
-              className={classes.pseudoCase}
               ref={provided.innerRef}
               {...provided.draggableProps}
               {...provided.dragHandleProps}
             >
-              <h1>{obj.envelope_id}</h1>
+              <Case data={obj}/>
             </div>
           )}
         </Draggable>

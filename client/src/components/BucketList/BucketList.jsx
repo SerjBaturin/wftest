@@ -2,7 +2,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { DragDropContext, Droppable } from 'react-beautiful-dnd'
 
-import { updateCases } from '../../redux/actions'
+import { updateCases, updateCasesAsync } from '../../redux/actions'
 
 import { makeStyles } from '@material-ui/core/styles'
 import CircularProgress from '@material-ui/core/CircularProgress'
@@ -26,7 +26,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 
-const BucketList = ({ buckets, updateCases }) => {
+const BucketList = ({ buckets, updateCases, updateCasesAsync, companyId, userId }) => {
   const classes = useStyles()
 
   const onDragEnd = (result, buckets) => {
@@ -47,6 +47,15 @@ const BucketList = ({ buckets, updateCases }) => {
           bucket.cases = destinationCases
         }
       })
+      const obj = {
+        company_id: companyId,
+        date: '',
+        envelope_id: result.draggableId,
+        from_wf_status: source.droppableId,
+        to_wf_status: destination.droppableId,
+        user_id: userId
+      }
+      updateCasesAsync(obj)
       updateCases(buckets)      
     } 
   }
@@ -82,12 +91,15 @@ const BucketList = ({ buckets, updateCases }) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     updateCases: (data) => dispatch(updateCases(data)),
+    updateCasesAsync: (data) => dispatch(updateCasesAsync(data))
   }
 }
 
 const mapStateToProps = (state) => {
   return {
     buckets: state.cases,
+    companyId: state.companyId,
+    userId: state.ping.user_id
   }
 }
 

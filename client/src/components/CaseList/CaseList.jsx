@@ -2,7 +2,6 @@ import React from 'react'
 import { makeStyles } from '@material-ui/core/styles'
 
 import Case from './Case'
-import { oneCase } from './oneCase'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -14,11 +13,11 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 
-const CaseList = () => {
+const CaseList = ({ cases }) => {
   const classes = useStyles()
   return (
     <ul className={classes.root}>
-      {oneCase.map((item) => (
+      {cases.map((item) => (
         <li key={item.envelope_id}>
           <Case
             id={item.envelope_id}

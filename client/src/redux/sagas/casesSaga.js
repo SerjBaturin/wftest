@@ -1,7 +1,7 @@
 import { takeEvery, put, fork, all } from 'redux-saga/effects'
 import axios from 'axios'
 
-import { CASES_ASYNC, UPDATE } from '../types'
+import { CASES_ASYNC, UPDATE, UPDATE_CASES_ASYNC } from '../types'
 import { casesAction } from '../actions'
 
 function* fetchCases() {
@@ -10,6 +10,10 @@ function* fetchCases() {
 
 function* updateCases() {
   yield takeEvery(UPDATE, updateData)
+}
+
+function* updateCasesAsync() {
+  yield takeEvery(UPDATE_CASES_ASYNC, updateDataAsync)
 }
 
 function* fetchData(action) {
@@ -55,8 +59,30 @@ function* updateData(action) {
   }
 }
 
+function* updateDataAsync(action) {
+  const params = action.payload
+  try {
+    const estSession = localStorage.getItem('est_session')
+    yield axios('/api/cases', {
+      headers: {
+        Authorization: `Bearer ${estSession}`,
+      },
+      params: {
+        company_id: params.company_id,
+        date: params.date,
+        envelope_id: params.envelope_id,
+        from_wf_status: params.from_wf_status,
+        to_wf_status: params.to_wf_status,
+        user_id: params.user_id
+      },
+    })
+  } catch (err) {
+    yield console.log(err)
+  }
+}
+
 function* casesSaga() {
-  yield all([fork(fetchCases), fork(updateCases)])
+  yield all([fork(fetchCases), fork(updateCases), fork(updateCasesAsync)])
 }
 
 export default casesSaga

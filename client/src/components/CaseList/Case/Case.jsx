@@ -6,16 +6,16 @@ import CardContent from '@material-ui/core/CardContent'
 import CardMedia from '@material-ui/core/CardMedia'
 import Typography from '@material-ui/core/Typography'
 
-import image from '../../../icons/car.png'
-import userIcon from '../../../icons/user.svg'
-import phoneIcon from '../../../icons/phone.svg'
-import letterIcon from '../../../icons/letter.svg'
-import backsIcon from '../../../icons/backs.svg'
-import ccIcon from '../../../icons/CoreCharge.svg'
-import gearsIcon from '../../../icons/Gears.svg'
-import subletIcon from '../../../icons/GreenSublet.svg'
-import usbIcon from '../../../icons/USB.svg'
-import clockIcon from '../../../icons/Clock.svg'
+// import image from '../../../icons/car.png'
+// import userIcon from '../../../icons/user.svg'
+// import phoneIcon from '../../../icons/phone.svg'
+// import letterIcon from '../../../icons/letter.svg'
+// import backsIcon from '../../../icons/backs.svg'
+// import ccIcon from '../../../icons/CoreCharge.svg'
+// import gearsIcon from '../../../icons/Gears.svg'
+// import subletIcon from '../../../icons/GreenSublet.svg'
+// import usbIcon from '../../../icons/USB.svg'
+// import clockIcon from '../../../icons/Clock.svg'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -92,32 +92,25 @@ const useStyles = makeStyles((theme) => ({
   ecd: {},
 }))
 
-const Case = ({ id, desc, model, year, vin }) => {
+const Case = ({ data }) => {
   const classes = useStyles()
-
+  
   return (
     <Card className={classes.root} draggable="true">
-      <CardMedia
-        component="img"
-        alt="Car"
-        height="140"
-        image={image}
-        title="Contemplative Reptile"
-      />
       <Typography className={classes.newTag}>
         # click to set custom tag
       </Typography>
       <CardContent>
         <Typography className={classes.title}>
-          {`${year} ${desc} ${model}`} <span className={classes.ins}>TEB</span>
+          {`${data.vehicle.vehicle_production_year} ${data.vehicle.vehicle_make_desc} ${data.vehicle.vehicle_model}`} <span className={classes.ins}>TEB</span>
         </Typography>
-        <Typography className={classes.vin}>{`${vin}`}</Typography>
+        {/* <Typography className={classes.vin}>{`${vin}`}</Typography> */}
         <Typography className={classes.user}>
-          <img src={userIcon} alt="" /> Kristen Andujar
+          {/* <img src={userIcon} alt="" /> Kristen Andujar */}
           <div className={classes.userIcons}>
-            <img src={phoneIcon} alt="" />
+            {/* <img src={phoneIcon} alt="" />
             <img src={letterIcon} alt="" />
-            <img src={backsIcon} alt="" />
+            <img src={backsIcon} alt="" /> */}
           </div>
         </Typography>
         <Typography className={classes.claimPit}>
@@ -132,20 +125,20 @@ const Case = ({ id, desc, model, year, vin }) => {
         <Typography className={classes.status}>
           In status: 1d 12h 51m
           <div className={classes.statusIcons}>
-            <img src={ccIcon} alt="" />
+            {/* <img src={ccIcon} alt="" />
             <img src={gearsIcon} alt="" />
             <img src={subletIcon} alt="" />
-            <img src={usbIcon} alt="" />
+            <img src={usbIcon} alt="" /> */}
           </div>
         </Typography>
       </CardContent>
       <div className={classes.cardFooter}>
         <div className={classes.cardTime}>
           <Typography>
-            Touch <img src={clockIcon} alt="" /> 2.5h
+            Touch 2.5h
           </Typography>
           <Typography>
-            Keys-to-keys <img src={clockIcon} alt="" /> 7d
+            Keys-to-keys 7d
           </Typography>
         </div>
       </div>
