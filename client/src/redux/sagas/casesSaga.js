@@ -24,6 +24,7 @@ function* fetchData(action) {
         Authorization: `Bearer ${estSession}`,
       },
       params: {
+        days: 30,
         company_id: action.payload,
       },
     })
@@ -63,19 +64,37 @@ function* updateDataAsync(action) {
   const params = action.payload
   try {
     const estSession = localStorage.getItem('est_session')
-    yield axios('/api/cases', {
-      headers: {
-        Authorization: `Bearer ${estSession}`,
-      },
-      params: {
+    yield axios.post(
+      '/api/cases',
+      {
         company_id: params.company_id,
         date: params.date,
         envelope_id: params.envelope_id,
         from_wf_status: params.from_wf_status,
         to_wf_status: params.to_wf_status,
-        user_id: params.user_id
+        user_id: params.user_id,
       },
-    })
+      {
+        headers: {
+          Authorization: `Bearer ${estSession}`,
+        },
+      }
+    )
+    yield axios.post(
+      '/api/update',
+      {
+        action: 'status_changed',
+        data: {
+          envelope_id: params.envelope_id,
+          status: params.to_wf_status
+        }
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${estSession}`,
+        },
+      }
+    )
   } catch (err) {
     yield console.log(err)
   }

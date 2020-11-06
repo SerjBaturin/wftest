@@ -47,9 +47,10 @@ const BucketList = ({ buckets, updateCases, updateCasesAsync, companyId, userId 
           bucket.cases = destinationCases
         }
       })
+      const datetime = (new Date()).toISOString().match(/(\d{4}-\d{2}-\d{2})T(\d{2}:\d{2}:\d{2})/)
       const obj = {
         company_id: companyId,
-        date: '',
+        date: `${datetime[1]} ${datetime[2]}`,
         envelope_id: result.draggableId,
         from_wf_status: source.droppableId,
         to_wf_status: destination.droppableId,
