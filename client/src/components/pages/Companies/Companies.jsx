@@ -1,7 +1,11 @@
 import React from 'react'
 import { connect } from 'react-redux'
 
-import { setCompanyId, logout, casesActionAsync } from '../../../redux/actions'
+import {
+  setCompanyIdAction,
+  logoutAction,
+  casesActionAsync,
+} from '../../../redux/actions'
 
 import { makeStyles } from '@material-ui/core/styles'
 import { Button, Container } from '@material-ui/core'
@@ -23,18 +27,23 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 
-const Companies = ({ companies, setCompanyId, casesSaga, logout }) => {
+const Companies = ({
+  companies,
+  setCompanyIdAction,
+  casesSaga,
+  logoutAction,
+}) => {
   const classes = useStyles()
 
   const handleChoose = (companyId) => {
-    setCompanyId(companyId)
+    setCompanyIdAction(companyId)
     casesSaga(companyId)
   }
 
   const handleLogout = () => {
-    logout()
+    logoutAction()
   }
-  
+
   return (
     <Container component="main" maxWidth="xs">
       <div className={classes.companies}>
@@ -64,9 +73,9 @@ const Companies = ({ companies, setCompanyId, casesSaga, logout }) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    setCompanyId: (companyId) => dispatch(setCompanyId(companyId)),
+    setCompanyIdAction: (companyId) => dispatch(setCompanyIdAction(companyId)),
     casesSaga: (companyId) => dispatch(casesActionAsync(companyId)),
-    logout: () => dispatch(logout())
+    logoutAction: () => dispatch(logoutAction()),
   }
 }
 

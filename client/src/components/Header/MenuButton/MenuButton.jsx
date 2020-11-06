@@ -1,7 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
 
-import { changeShop, logout } from '../../../redux/actions'
+import { changeShopAction, logoutAction } from '../../../redux/actions'
 
 import { makeStyles } from '@material-ui/core/styles'
 import {
@@ -38,7 +38,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 
-const MenuButton = ({ user, companyId, logout, changeShop }) => {
+const MenuButton = ({ user, companyId, logoutAction, changeShopAction }) => {
   const classes = useStyles()
   const [open, setOpen] = React.useState(false)
   const anchorRef = React.useRef(null)
@@ -48,11 +48,11 @@ const MenuButton = ({ user, companyId, logout, changeShop }) => {
   }
 
   const handleLogout = () => {
-    logout()
+    logoutAction()
   }
 
   const handleChange = () => {
-    changeShop()
+    changeShopAction()
   }
 
   const handleClose = (event) => {
@@ -79,7 +79,9 @@ const MenuButton = ({ user, companyId, logout, changeShop }) => {
     prevOpen.current = open
   }, [open])
 
-  const bodyshopName = user.company_list.find(company => company.company_id === companyId).company_name     
+  const bodyshopName = user.company_list.find(
+    (company) => company.company_id === companyId
+  ).company_name
 
   return (
     <div className={classes.root}>
@@ -115,8 +117,18 @@ const MenuButton = ({ user, companyId, logout, changeShop }) => {
                     id="menu-list-grow"
                     onKeyDown={handleListKeyDown}
                   >
-                    <MenuItem className={classes.menuItem} onClick={() => handleChange()}>Change company</MenuItem>
-                    <MenuItem className={classes.menuItem} onClick={() => handleLogout()}>Logout</MenuItem>
+                    <MenuItem
+                      className={classes.menuItem}
+                      onClick={() => handleChange()}
+                    >
+                      Change company
+                    </MenuItem>
+                    <MenuItem
+                      className={classes.menuItem}
+                      onClick={() => handleLogout()}
+                    >
+                      Logout
+                    </MenuItem>
                   </MenuList>
                 </ClickAwayListener>
               </Paper>
@@ -131,14 +143,14 @@ const MenuButton = ({ user, companyId, logout, changeShop }) => {
 const mapStateToProps = (state) => {
   return {
     user: state.login,
-    companyId: state.companyId
+    companyId: state.companyId,
   }
 }
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    logout: () => dispatch(logout()),
-    changeShop: () => dispatch(changeShop())
+    logoutAction: () => dispatch(logoutAction()),
+    changeShopAction: () => dispatch(changeShopAction()),
   }
 }
 

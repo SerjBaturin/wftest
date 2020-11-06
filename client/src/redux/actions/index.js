@@ -9,7 +9,7 @@ import {
   LOGOUT,
   CHANGE_SHOP,
   UPDATE,
-  UPDATE_CASES_ASYNC
+  UPDATE_CASES_ASYNC,
 } from '../types'
 
 export const loginActionAsync = (data) => ({ type: LOGIN_ASYNC, payload: data })
@@ -21,16 +21,19 @@ export const casesActionAsync = (companyId) => ({
   payload: companyId,
 })
 export const casesAction = (data) => ({ type: CASES, payload: data })
-export const setCompanyId = (companyId) => ({
+export const setCompanyIdAction = (companyId) => ({
   type: SET_COMPANY_ID,
   payload: companyId,
 })
-export const logout = () => {
+export const logoutAction = () => {
   localStorage.removeItem('est_session')
   return {
     type: LOGOUT,
   }
 }
-export const changeShop = () => ({ type: CHANGE_SHOP })
-export const updateCases = (data) => ({ type: UPDATE, payload: data })
-export const updateCasesAsync = (data) => ({ type: UPDATE_CASES_ASYNC, payload: data })
+export const changeShopAction = () => ({ type: CHANGE_SHOP })
+export const updateCasesAction = (data) => ({ type: UPDATE, payload: data })
+export const updateCasesActionAsync = (data) => ({
+  type: UPDATE_CASES_ASYNC,
+  payload: data,
+})
