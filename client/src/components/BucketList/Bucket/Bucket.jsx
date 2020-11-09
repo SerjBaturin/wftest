@@ -79,6 +79,7 @@ const Bucket = ({ title, cases }) => {
     <ArrowDropUp className={`${classes.arrow} ${classes.arrowClosed}`} />
   )
 
+  const clos = { display: 'none' }
   return (
     <div
       className={`${classes.bucket} ${!open ? classes.closed : null}`}
@@ -105,7 +106,7 @@ const Bucket = ({ title, cases }) => {
                 {...provided.draggableProps}
                 {...provided.dragHandleProps}
               >
-                <Case data={obj} />
+                <Case data={obj} open={open} />
               </div>
             )}
           </Draggable>

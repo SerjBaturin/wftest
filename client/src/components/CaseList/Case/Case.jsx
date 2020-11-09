@@ -94,9 +94,12 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   ecd: {},
+  closedCaseList: {
+    display: 'none',
+  },
 }))
 
-const Case = ({ data }) => {
+const Case = ({ data, open }) => {
   const classes = useStyles()
 
   const [value, setValue] = useState()
@@ -111,7 +114,10 @@ const Case = ({ data }) => {
   }
 
   return (
-    <Card className={classes.root} draggable="true">
+    <Card
+      className={`${classes.root} ${!open ? classes.closedCaseList : null}`}
+      draggable="true"
+    >
       <TextField
         className={classes.newTag}
         placeholder={placeholder}
