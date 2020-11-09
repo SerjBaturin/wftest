@@ -1,7 +1,8 @@
-import React from 'react'
+import React, { useState } from 'react'
 
 import { makeStyles } from '@material-ui/core/styles'
 import Card from '@material-ui/core/Card'
+import TextField from '@material-ui/core/TextField'
 import CardContent from '@material-ui/core/CardContent'
 import CardMedia from '@material-ui/core/CardMedia'
 import Typography from '@material-ui/core/Typography'
@@ -22,13 +23,16 @@ const useStyles = makeStyles((theme) => ({
     width: '100%',
     marginBottom: theme.spacing(2),
   },
+  media: {
+    height: 140,
+  },
   newTag: {
     display: 'flex',
     padding: theme.spacing(2),
     backgroundColor: '#e2e2e2',
     fontSize: '12px',
     fontWeight: '300',
-    color: '#aaaaaa',
+    color: 'red',
     cursor: 'pointer',
   },
   title: {
@@ -94,24 +98,39 @@ const useStyles = makeStyles((theme) => ({
 
 const Case = ({ data }) => {
   const classes = useStyles()
-  
+
+  const [value, setValue] = useState()
+  const [placeholder, setPlaceholder] = useState('# click to set a custom tag')
+
+  const onChangeHandler = (e) => {
+    setValue(e.target.value)
+  }
+
+  const onClickHandler = () => {
+    setPlaceholder('')
+  }
+
   return (
     <Card className={classes.root} draggable="true">
-      <Typography className={classes.newTag}>
-        # click to set custom tag
-      </Typography>
+      <TextField
+        className={classes.newTag}
+        placeholder={placeholder}
+        value={value ? value : ''}
+        onChange={onChangeHandler}
+      />
       <CardContent>
         <Typography className={classes.title}>
-          {`${data.vehicle.vehicle_production_year} ${data.vehicle.vehicle_make_desc} ${data.vehicle.vehicle_model}`} <span className={classes.ins}>TEB</span>
+          {`${data.vehicle.vehicle_production_year} ${data.vehicle.vehicle_make_desc} ${data.vehicle.vehicle_model}`}{' '}
+          <span className={classes.ins}>TEB</span>
         </Typography>
         {/* <Typography className={classes.vin}>{`${vin}`}</Typography> */}
         <Typography className={classes.user}>
           {/* <img src={userIcon} alt="" /> Kristen Andujar */}
-          <div className={classes.userIcons}>
-            {/* <img src={phoneIcon} alt="" />
+          {/* <div className={classes.userIcons}> */}
+          {/* <img src={phoneIcon} alt="" />
             <img src={letterIcon} alt="" />
             <img src={backsIcon} alt="" /> */}
-          </div>
+          {/* </div> */}
         </Typography>
         <Typography className={classes.claimPit}>
           <span>
@@ -122,26 +141,22 @@ const Case = ({ data }) => {
           </span>
         </Typography>
         <Typography></Typography>
-        <Typography className={classes.status}>
+        {/* <Typography className={classes.status}>
           In status: 1d 12h 51m
-          <div className={classes.statusIcons}>
-            {/* <img src={ccIcon} alt="" />
+          <div className={classes.statusIcons}> */}
+        {/* <img src={ccIcon} alt="" />
             <img src={gearsIcon} alt="" />
             <img src={subletIcon} alt="" />
             <img src={usbIcon} alt="" /> */}
-          </div>
-        </Typography>
+        {/* </div>
+        </Typography> */}
       </CardContent>
-      <div className={classes.cardFooter}>
+      {/* <div className={classes.cardFooter}>
         <div className={classes.cardTime}>
-          <Typography>
-            Touch 2.5h
-          </Typography>
-          <Typography>
-            Keys-to-keys 7d
-          </Typography>
+          <Typography>Touch 2.5h</Typography>
+          <Typography>Keys-to-keys 7d</Typography>
         </div>
-      </div>
+      </div> */}
     </Card>
   )
 }
