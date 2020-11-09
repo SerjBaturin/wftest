@@ -15,9 +15,22 @@ const useStyles = makeStyles((theme) => ({
     padding: theme.spacing(2),
     width: '250px',
     minHeight: '80vh',
+    height: '80vh',
     backgroundColor: theme.palette.gray.dark,
     textTransform: 'uppercase',
     color: theme.palette.white.main,
+    overflowY: 'scroll',
+    '&::-webkit-scrollbar': {
+      width: '0.4em',
+    },
+    '&::-webkit-scrollbar-track': {
+      boxShadow: 'inset 0 0 6px rgba(0,0,0,0.00)',
+      webkitBoxShadow: 'inset 0 0 6px rgba(0,0,0,0.00)',
+    },
+    '&::-webkit-scrollbar-thumb': {
+      backgroundColor: 'rgba(0,0,0,.1)',
+      outline: '1px solid slategrey',
+    },
   },
   closed: {
     width: '40px',
@@ -87,7 +100,7 @@ const Bucket = ({ title, cases }) => {
               {...provided.draggableProps}
               {...provided.dragHandleProps}
             >
-              <Case data={obj}/>
+              <Case data={obj} />
             </div>
           )}
         </Draggable>
