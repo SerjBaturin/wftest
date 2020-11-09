@@ -19,17 +19,21 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: theme.palette.gray.dark,
     textTransform: 'uppercase',
     color: theme.palette.white.main,
+  },
+  caseList: {
     overflowY: 'scroll',
+    paddingRight: '5px',
     '&::-webkit-scrollbar': {
-      width: '0.4em',
+      width: '.4em',
     },
     '&::-webkit-scrollbar-track': {
-      boxShadow: 'inset 0 0 6px rgba(0,0,0,0.00)',
-      webkitBoxShadow: 'inset 0 0 6px rgba(0,0,0,0.00)',
+      // boxShadow: 'inset 0 0 6px rgba(0,0,0,0.00)',
+      // webkitBoxShadow: 'inset 0 0 6px rgba(0,0,0,0.00)',
     },
     '&::-webkit-scrollbar-thumb': {
-      backgroundColor: 'rgba(0,0,0,.1)',
-      outline: '1px solid slategrey',
+      marginRight: '2px',
+      borderRadius: '10px',
+      backgroundColor: '#e2e2e2',
     },
   },
   closed: {
@@ -88,23 +92,25 @@ const Bucket = ({ title, cases }) => {
         {title}
         {open ? left : up}
       </Typography>
-      {cases.map((obj, index) => (
-        <Draggable
-          key={obj.envelope_id}
-          draggableId={String(obj.envelope_id)}
-          index={index}
-        >
-          {(provided, snapshot) => (
-            <div
-              ref={provided.innerRef}
-              {...provided.draggableProps}
-              {...provided.dragHandleProps}
-            >
-              <Case data={obj} />
-            </div>
-          )}
-        </Draggable>
-      ))}
+      <div className={classes.caseList}>
+        {cases.map((obj, index) => (
+          <Draggable
+            key={obj.envelope_id}
+            draggableId={String(obj.envelope_id)}
+            index={index}
+          >
+            {(provided, snapshot) => (
+              <div
+                ref={provided.innerRef}
+                {...provided.draggableProps}
+                {...provided.dragHandleProps}
+              >
+                <Case data={obj} />
+              </div>
+            )}
+          </Draggable>
+        ))}
+      </div>
     </div>
   )
 }
